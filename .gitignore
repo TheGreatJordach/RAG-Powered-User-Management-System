@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+docker/.env
+# Ignore MailHog SQLite database files inside the docker folder
+/docker/mailHog_data/*
+
 # compiled output
 dist
 tmp

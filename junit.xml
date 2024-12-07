@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="5" failures="0" errors="0" time="11.094">
+  <testsuite name="common" errors="0" failures="0" skipped="0" timestamp="2024-12-07T18:06:19" time="3.405" tests="1">
+    <testcase classname="common should work" name="common should work" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppService" errors="0" failures="0" skipped="0" timestamp="2024-12-07T18:06:19" time="4.181" tests="1">
+    <testcase classname="AppService getData should return &quot;Hello API&quot;" name="AppService getData should return &quot;Hello API&quot;" time="0.01">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppController" errors="0" failures="0" skipped="0" timestamp="2024-12-07T18:06:19" time="4.195" tests="1">
+    <testcase classname="AppController getData should return &quot;Hello API&quot;" name="AppController getData should return &quot;Hello API&quot;" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppComponent" errors="0" failures="0" skipped="0" timestamp="2024-12-07T18:06:21" time="3.99" tests="2">
+    <testcase classname="AppComponent should render title" name="AppComponent should render title" time="0.223">
+    </testcase>
+    <testcase classname="AppComponent should have as title &apos;frontend&apos;" name="AppComponent should have as title &apos;frontend&apos;" time="0.031">
+    </testcase>
+  </testsuite>
+</testsuites>

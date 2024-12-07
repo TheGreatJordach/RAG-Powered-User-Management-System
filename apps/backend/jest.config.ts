@@ -7,4 +7,12 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/backend',
+  reporters:[
+    "default",
+    ["jest-junit", {
+    outputDirectory:"./test-coverage",
+    outputName:"junit-report.xml",
+
+    }]
+  ]
 };
