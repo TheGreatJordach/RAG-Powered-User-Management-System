@@ -1,82 +1,207 @@
-# CortexAccess
+---
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+# **Cortex Access is a RAG-Powered User Management System**
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+A robust, production-ready **NestJS** application designed to demonstrate advanced backend development techniques. This project incorporates **role-based access control (RBAC)**, **PDF uploading with Retrieval-Augmented Generation (RAG)** for querying documents, **JWT authentication**, **refresh token rotation**, and a modern software stack to ensure scalability and security.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## **Table of Contents**
+- [About the Project](#about-the-project)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [API Endpoints](#api-endpoints)
+- [Code Quality and Security](#code-quality-and-security)
+- [Architecture](#architecture)
+- [Future Improvements](#future-improvements)
 
-## Finish your CI setup
+---
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/fDPeIIoCtz)
+## **About the Project**
 
+The project is a **user management and document query system** designed for organizations where users (Admins, Employees, Supervisors) can:
+- **Authenticate** (login, logout, refresh token).
+- Manage roles and users with **Admin-only access controls**.
+- Upload PDF documents and **ask questions** about their content using RAG techniques.
+- Securely handle tokens, cookies, and sensitive data while adhering to best practices.
 
-## Run tasks
+This project demonstrates skills in building **scalable applications**, working with **microservices-ready Nx monorepos**, and leveraging **modern tools** like **Meilisearch**, **pgvector**, and **Redis**.
 
-To run the dev server for your app, use:
+---
 
-```sh
-npx nx serve frontend
+## **Features**
+
+### **User Management**
+- Role-based access control (**Admin**, **Employee**, **Supervisor**).
+- **JWT authentication** with refresh token rotation stored in **Redis**.
+- **Password reset** and first-login mandatory password change.
+
+### **PDF Upload & RAG**
+- Upload PDFs and retrieve answers to questions based on the document content.
+- Fast search powered by **Meilisearch** and embedding storage in **pgvector**-enabled PostgreSQL.
+
+### **Security**
+- Input sanitization with **express-sanitizer**.
+- **CORS** and **Helmet** for secure HTTP headers.
+- Cookie management with a custom **CookieService**.
+
+### **Error Handling**
+- Centralized error handling using a custom decorator for clean and maintainable code.
+
+### **Scalability**
+- Nx Monorepo architecture for modular development.
+- Docker Compose for running **PostgreSQL** and **Redis** containers.
+
+### **Pagination**
+- Built-in pagination support for listing users, documents, and query results.
+
+### **Code Quality**
+- Continuous integration with **SonarCloud** for code quality and coverage.
+
+---
+
+## **Tech Stack**
+
+| **Category**     | **Technology**                                                                                  |
+|-------------------|-----------------------------------------------------------------------------------------------|
+| **Backend**       | [NestJS](https://nestjs.com), [Nx](https://nx.dev), [pgvector](https://github.com/pgvector/pgvector) |
+| **Database**      | PostgreSQL with pgvector for vector search                                                   |
+| **Search Engine** | Meilisearch                                                                                  |
+| **Token Store**   | Redis                                                                                        |
+| **Authentication**| JWT, Role-based Access Control (RBAC)                                                        |
+| **Containerization**| Docker, Docker Compose                                                                     |
+| **Security**      | Helmet, CORS, express-sanitizer                                                              |
+| **Code Quality**  | SonarCloud                                                                                   |
+| **Utilities**     | PDF parsing, LangChain, OpenAI                                                              |
+
+---
+
+## **Setup Instructions**
+
+### **Prerequisites**
+1. **Docker** and **Docker Compose** installed.
+2. **Node.js** (>= 18) and **npm** (>= 8).
+3. PostgreSQL, Redis, and Meilisearch configured via Docker Compose.
+
+### **Clone the Repository**
+```bash
+git clone https://github.com/yourusername/rag-user-management.git
+cd rag-user-management
 ```
 
-To create a production bundle:
-
-```sh
-npx nx build frontend
+### **Setup Docker Containers**
+Create a `docker-compose.yml` file to spin up PostgreSQL, Redis, and Meilisearch:
+```yaml
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rag_app
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    container_name: meilisearch
+    environment:
+      MEILI_MASTER_KEY: 'masterKey'
+    ports:
+      - "7700:7700"
 ```
 
-To see all available targets to run for a project, run:
-
-```sh
-npx nx show project frontend
+Start the containers:
+```bash
+docker-compose up -d
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/angular:app demo
+### **Install Dependencies**
+Install the project dependencies:
+```bash
+npm install
 ```
 
-To generate a new library, use:
-
-```sh
-npx nx g @nx/angular:lib mylib
+### **Run the Application**
+Start the backend:
+```bash
+nx serve backend
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### **Environment Variables**
+Create a `.env` file in the `apps/backend` folder:
+```
+DATABASE_URL=postgres://user:password@localhost:5432/rag_app
+REDIS_URL=redis://localhost:6379
+MEILISEARCH_URL=http://localhost:7700
+MEILISEARCH_API_KEY=masterKey
+JWT_SECRET=your_jwt_secret
+OPENAI_API_KEY=your_openai_api_key
+```
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
+## **API Endpoints**
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### **Auth Module**
+- `POST /auth/login`: Authenticate users.
+- `POST /auth/refresh`: Rotate refresh tokens.
+- `POST /auth/reset-password`: Reset user password.
 
-## Install Nx Console
+### **User Module**
+- `POST /users`: Admin-only. Create a new user.
+- `PATCH /users/:id`: Admin-only. Update user information.
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+### **PDF Module**
+- `POST /pdf/upload`: Upload a PDF file.
+- `POST /pdf/query/:pdfId`: Query a specific PDF using RAG.
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Useful links
+## **Code Quality and Security**
 
-Learn more:
+- **SonarCloud Integration**: Continuous quality and coverage checks.
+- **Sanitization**: Prevent SQL injection and XSS attacks with express-sanitizer.
+- **Helmet**: Protect HTTP headers.
+- **Custom CookieService**: Manages cookies securely.
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## **Architecture**
+
+- **Monorepo**: Nx workspace for modular, scalable development.
+- **Modularized Features**: Separate modules for Auth, User, and PDF services.
+- **Custom Decorators**: Centralized error handling using decorators.
+
+---
+
+## **Future Improvements**
+1. Add a frontend using **Angular**.
+2. Enable multi-language support for document queries.
+3. Integrate an admin dashboard for user and document management.
+
+---
+
+## **License**
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+## **Contact**
+
+Feel free to reach out if you have any questions or suggestions!
+
+- **Email**: thejordach@gmail.com
+- **LinkedIn**: [Your LinkedIn Profile](https://pe.linkedin.com/in/jordachmakaya)
+- **Portfolio**: [Your Portfolio](https://yourportfolio.com)
+
+---
+
+**Show some ❤️ by starring this repository if you find it useful!** 😊
+
+--- 
