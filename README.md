@@ -1,6 +1,8 @@
+Here is an updated version of your project documentation that includes versioning in the API endpoints:
+
 ---
 
-# **Cortex Access is a RAG-Powered User Management System**
+# **Cortex Access: A RAG-Powered User Management System**
 
 A robust, production-ready **NestJS** application designed to demonstrate advanced backend development techniques. This project incorporates **role-based access control (RBAC)**, **PDF uploading with Retrieval-Augmented Generation (RAG)** for querying documents, **JWT authentication**, **refresh token rotation**, and a modern software stack to ensure scalability and security.
 
@@ -149,17 +151,17 @@ OPENAI_API_KEY=your_openai_api_key
 ## **API Endpoints**
 
 ### **Auth Module**
-- `POST /auth/login`: Authenticate users.
-- `POST /auth/refresh`: Rotate refresh tokens.
-- `POST /auth/reset-password`: Reset user password.
+- `POST /api/v1/auth/login`: Authenticate users.
+- `POST /api/v1/auth/refresh`: Rotate refresh tokens.
+- `POST /api/v1/auth/reset-password`: Reset user password.
 
 ### **User Module**
-- `POST /users`: Admin-only. Create a new user.
-- `PATCH /users/:id`: Admin-only. Update user information.
+- `POST /api/v1/users`: Admin-only. Create a new user.
+- `PATCH /api/v1/users/:id`: Admin-only. Update user information.
 
 ### **PDF Module**
-- `POST /pdf/upload`: Upload a PDF file.
-- `POST /pdf/query/:pdfId`: Query a specific PDF using RAG.
+- `POST /api/v1/pdf/upload`: Upload a PDF file.
+- `POST /api/v1/pdf/query/:pdfId`: Query a specific PDF using RAG.
 
 ---
 
@@ -205,3 +207,4 @@ Feel free to reach out if you have any questions or suggestions!
 **Show some ❤️ by starring this repository if you find it useful!** 😊
 
 --- 
+

@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@cortex-access/auth": ["libs/auth/src/index.ts"],
+      "@cortex-access/common": ["libs/common/src/index.ts"],
+      "@cortex-access/pdf": ["libs/pdf/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
